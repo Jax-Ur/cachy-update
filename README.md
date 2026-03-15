@@ -23,7 +23,7 @@ Fork of the Cachy-Update program with added "update frequency" settings. Current
 * Monthly, 30 days from the time this setting is applied and the last time check update was run
 
 
-
+##
 
 
 An interactive update notifier & applier for CachyOS that assists you with important pre / post update tasks.  

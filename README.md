@@ -26,6 +26,10 @@ Install required build dependencies:
 sudo pacman -S --asdeps make scdoc bats
 ```
 
+Download the archive of the [latest tag](https://github.com/Jax-Ur/cachy-update/tags) and extract it (alternatively, you can clone this repository with `git`).
+
+To install `cachy-update`, go into the extracted / cloned directory and run the following commands:
+
 ```bash
 make build
 make test

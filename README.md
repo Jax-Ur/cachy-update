@@ -16,7 +16,7 @@
 
 ## Description
 
-Fork of the Cachy-Update program with added "update frequency" settings. Current options are:
+Fork of the [Cachy-Update](https://github.com/CachyOS/cachy-update) program with added "update frequency" settings. Current options are:
 * Hourly (resets the original)
 * Daily, daily from the time this setting is applied and the last time check update was run
 * Weekly, weekly from the time this setting is applied and the last time check update was run

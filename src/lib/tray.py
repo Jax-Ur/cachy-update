@@ -12,6 +12,7 @@ import sys
 import subprocess
 import time
 import json
+import re
 from math import floor
 from PyQt6.QtGui import QIcon, QAction
 from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMenu
@@ -106,6 +107,63 @@ def arch_update():
     if not os.path.isfile(DESKTOP_FILE):
         DESKTOP_FILE = "/usr/share/applications/arch-update.desktop"
     subprocess.run(["gio", "launch", DESKTOP_FILE], check=False)
+
+def set_update_frequency_hourly():
+    """Set the arch-update timer to check once per hour"""
+    timer_file = os.path.join(
+        os.environ.get('HOME', ''), '.config', 'systemd', 'user', 'arch-update.timer')
+    try:
+        with open(timer_file, 'r', encoding='utf-8') as f:
+            contents = f.read()
+        contents = re.sub(r'OnUnitActiveSec=.*', 'OnUnitActiveSec=1h', contents)
+        with open(timer_file, 'w', encoding='utf-8') as f:
+            f.write(contents)
+        subprocess.run(["systemctl", "--user", "daemon-reload"], check=False)
+    except OSError as e:
+        log.error("Failed to update timer file: %s", e)
+
+def set_update_frequency_1_day():
+    """Set the arch-update timer to check once per day"""
+    timer_file = os.path.join(
+        os.environ.get('HOME', ''), '.config', 'systemd', 'user', 'arch-update.timer')
+    try:
+        with open(timer_file, 'r', encoding='utf-8') as f:
+            contents = f.read()
+        contents = re.sub(r'OnUnitActiveSec=.*', 'OnUnitActiveSec=1d', contents)
+        with open(timer_file, 'w', encoding='utf-8') as f:
+            f.write(contents)
+        subprocess.run(["systemctl", "--user", "daemon-reload"], check=False)
+    except OSError as e:
+        log.error("Failed to update timer file: %s", e)
+
+def set_update_frequency_1_week():
+    """Set the arch-update timer to check once per week"""
+    timer_file = os.path.join(
+        os.environ.get('HOME', ''), '.config', 'systemd', 'user', 'arch-update.timer')
+    try:
+        with open(timer_file, 'r', encoding='utf-8') as f:
+            contents = f.read()
+        contents = re.sub(r'OnUnitActiveSec=.*', 'OnUnitActiveSec=7d', contents)
+        with open(timer_file, 'w', encoding='utf-8') as f:
+            f.write(contents)
+        subprocess.run(["systemctl", "--user", "daemon-reload"], check=False)
+    except OSError as e:
+        log.error("Failed to update timer file: %s", e)
+
+def set_update_frequency_monthly():
+    """Set the arch-update timer to check once per month"""
+    timer_file = os.path.join(
+        os.environ.get('HOME', ''), '.config', 'systemd', 'user', 'arch-update.timer')
+    try:
+        with open(timer_file, 'r', encoding='utf-8') as f:
+            contents = f.read()
+        contents = re.sub(r'OnUnitActiveSec=.*', 'OnUnitActiveSec=30d', contents)
+        with open(timer_file, 'w', encoding='utf-8') as f:
+            f.write(contents)
+        subprocess.run(["systemctl", "--user", "daemon-reload"], check=False)
+    except OSError as e:
+        log.error("Failed to update timer file: %s", e)
+
 
 # Helper function to extract human-readable duration from systemctl JSON output
 def get_next_check_duration_human_readable(input_json):
@@ -332,6 +390,8 @@ class ArchUpdateQt6:
 
         # Restore static menu entries (after clearing the menu)
         self.menu.addSeparator()
+        self.menu.addMenu(self.dropdown_menu_settings)
+        self.menu.addSeparator()
         self.menu.addAction(self.menu_launch)
         self.menu.addAction(self.menu_check)
         self.menu.addAction(self.menu_exit)
@@ -386,6 +446,17 @@ class ArchUpdateQt6:
         self.menu_check = QAction(_("Check for updates"))
         self.menu_exit = QAction(_("Exit"))
 
+        # Settings submenu
+        self.dropdown_menu_settings = QMenu(_("Update frequency"))
+        self.menu_settings_hourly = QAction(_("Hourly"))
+        self.menu_settings_timer = QAction(_("Daily"))
+        self.menu_settings_config = QAction(_("Weekly"))
+        self.menu_settings_monthly = QAction(_("Monthly"))
+        self.dropdown_menu_settings.addAction(self.menu_settings_hourly)
+        self.dropdown_menu_settings.addAction(self.menu_settings_timer)
+        self.dropdown_menu_settings.addAction(self.menu_settings_config)
+        self.dropdown_menu_settings.addAction(self.menu_settings_monthly)
+        
         # Initialisation of the dynamic dropdown menus
         self.dropdown_menu_all = QMenu(_("All"))
         self.dropdown_menu_pkg = QMenu(_("Packages"))
@@ -397,11 +468,17 @@ class ArchUpdateQt6:
         self.menu.addAction(self.menu_last_check)
         self.menu.aboutToShow.connect(self.update_dropdown_menus) # Function connector for the menu_next_check entry
         self.menu.addSeparator()
+        self.menu.addMenu(self.dropdown_menu_settings)
+        self.menu.addSeparator()
         self.menu.addAction(self.menu_launch)
         self.menu.addAction(self.menu_check)
         self.menu.addAction(self.menu_exit)
 
         self.menu_count.triggered.connect(lambda: self.run("menu_click_action"))
+        self.menu_settings_hourly.triggered.connect(set_update_frequency_hourly)
+        self.menu_settings_timer.triggered.connect(set_update_frequency_1_day)
+        self.menu_settings_config.triggered.connect(set_update_frequency_1_week)
+        self.menu_settings_monthly.triggered.connect(set_update_frequency_monthly)
         self.menu_launch.triggered.connect(lambda: self.run("menu_click_action"))
         self.menu_check.triggered.connect(self.check)
         self.menu_exit.triggered.connect(self.exit)

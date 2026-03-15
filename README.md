@@ -16,6 +16,16 @@
 
 ## Description
 
+Fork of the Cachy-Update program with added "update frequency" settings. Current options are:
+* Hourly (resets the original)
+* Daily, daily from the time this setting is applied and the last time check update was run
+* Weekly, weekly from the time this setting is applied and the last time check update was run
+* Monthly, 30 days from the time this setting is applied and the last time check update was run
+
+
+
+
+
 An interactive update notifier & applier for CachyOS that assists you with important pre / post update tasks.  
 Includes a dynamic & clickeable systray applet for an easy integration with any Desktop Environment / Window Manager.
 

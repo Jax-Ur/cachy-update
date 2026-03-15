@@ -7,7 +7,7 @@
 ## Table of contents
 
 - [Description](#description)
-
+- [Installation](#installation)
 - [License](#license)
 
 ## Description
@@ -18,6 +18,31 @@ Fork of the [Cachy-Update](https://github.com/CachyOS/cachy-update) program with
 * Weekly, 7 days from the time this setting is applied and the last time check update was run
 * Monthly, 30 days from the time this setting is applied and the last time check update was run
 
+## Installation
+
+Install required build dependencies:
+
+```bash
+sudo pacman -S --asdeps make scdoc bats
+```
+
+```bash
+make build
+make test
+sudo make install
+```
+
+Once the installation is complete, you may optionally clean up the directory of files generated during installation by running the following command:
+
+```bash
+make clean
+```
+
+To uninstall `arch-update`, go into the extracted / cloned directory and run the following command:
+
+```bash
+sudo make uninstall
+```
 
 ##
 

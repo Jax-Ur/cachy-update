@@ -26,9 +26,9 @@ Install required build dependencies:
 sudo pacman -S --asdeps make scdoc bats
 ```
 
-Download the archive of the [latest tag](https://github.com/Jax-Ur/cachy-update/tags) and extract it (alternatively, you can clone this repository with `git`).
+Download the archive and extract it (alternatively, you can clone this repository with `git`).
 
-To install `cachy-update`, go into the extracted / cloned directory and run the following commands:
+To install the modified `cachy-update`, go into the extracted / cloned directory and run the following commands:
 
 ```bash
 make build
@@ -42,7 +42,7 @@ Once the installation is complete, you may optionally clean up the directory of 
 make clean
 ```
 
-To uninstall `arch-update`, go into the extracted / cloned directory and run the following command:
+To uninstall the modified `cachy-update`, go into the extracted / cloned directory and run the following command:
 
 ```bash
 sudo make uninstall

@@ -18,7 +18,7 @@ Fork of the [Cachy-Update](https://github.com/CachyOS/cachy-update) program with
 * Weekly, 7 days from the time this setting is applied and the last time check update was run
 * Monthly, 30 days from the time this setting is applied and the last time check update was run
 
- <img width="460" height="300" src="https://github.com/Jax-Ur/cachy-update/blob/main/Options.png">
+ <img width="260" height="327" src="https://github.com/Jax-Ur/cachy-update/blob/main/Options.png">
 
 ## Installation
 

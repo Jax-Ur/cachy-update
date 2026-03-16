@@ -157,7 +157,7 @@ def set_update_frequency_monthly():
     try:
         with open(timer_file, 'r', encoding='utf-8') as f:
             contents = f.read()
-        contents = re.sub(r'OnUnitActiveSec=.*', 'OnUnitActiveSec=1m', contents)
+        contents = re.sub(r'OnUnitActiveSec=.*', 'OnUnitActiveSec=1M', contents)
         with open(timer_file, 'w', encoding='utf-8') as f:
             f.write(contents)
         subprocess.run(["systemctl", "--user", "daemon-reload"], check=False)
